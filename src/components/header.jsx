@@ -3,7 +3,7 @@ import argentBankLogo from "../assets/img/argentBankLogo.png";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-//import { selectIsAuthenticatedUser } from "../selectors";
+//import { selectIsAuthenticatedUser } from "../utils/selectors";
 
 function Header() {
   //const isAuthenticatedUser = useSelector(selectIsAuthenticatedUser);

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-//import { selectIsAuthenticatedUser } from "../selectors";
+//import { selectIsAuthenticatedUser } from "../utils/selectors";
 
 function Profile() {
   useEffect(() => {

@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom/client";
-import "./index.css";
+import "./utils/style/index.css";
 
 import Header from "./components/header";
 import Footer from "./components/footer";
@@ -11,7 +11,7 @@ import Profile from "./pages/profile";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { Provider } from "react-redux";
-import { store } from "./store";
+import { store } from "./utils/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-//import { selectIsAuthenticatedUser } from "../selectors";
+//import { selectIsAuthenticatedUser } from "../utils/selectors";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
