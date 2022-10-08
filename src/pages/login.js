@@ -12,7 +12,7 @@ function Login() {
 
   const navigate = useNavigate();
   //const isAuthenticatedUser = useSelector(selectIsAuthenticatedUser);
-  const isAuthenticatedUser = useSelector((state) => state.isAuthenticatedUser);
+  const isAuthenticatedUser = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (isAuthenticatedUser) {
@@ -38,7 +38,6 @@ function Login() {
             <input type="checkbox" id="remember-me" />
             <label htmlFor="remember-me">Remember me</label>
           </div>
-          {/*<!-- PLACEHOLDER DUE TO STATIC SITE -->*/}
           <button
             className="sign-in-button"
             onClick={(event) => {

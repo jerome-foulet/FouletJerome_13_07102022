@@ -9,7 +9,7 @@ function Profile() {
   }, []);
 
   //const isAuthenticatedUser = useSelector(selectIsAuthenticatedUser);
-  const isAuthenticatedUser = useSelector((state) => state.isAuthenticatedUser);
+  const isAuthenticatedUser = useSelector((state) => state.auth);
 
   if (isAuthenticatedUser === false) {
     return <Navigate replace to="/login" />;

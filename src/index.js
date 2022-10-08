@@ -11,7 +11,7 @@ import Profile from "./pages/profile";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { Provider } from "react-redux";
-import { store } from "./utils/store";
+import store from "./utils/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 

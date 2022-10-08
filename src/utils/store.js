@@ -1,29 +1,13 @@
-import { createStore } from "redux";
-import produce from "immer";
+import { combineReducers, createStore } from "redux";
+import authReducer from "../features/auth";
 
-const initialState = {
-  isAuthenticatedUser: false,
-};
+const reduxDevtools =
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
 
-export const loginUser = () => ({
-  type: "loginUser",
-});
-export const logoutUser = () => ({
-  type: "loginUser",
+const reducer = combineReducers({
+  auth: authReducer,
 });
 
-function reducer(state, action) {
-  if (action.type === "loginUser") {
-    return produce(state, (draft) => {
-      draft.isAuthenticatedUser = !draft.isAuthenticatedUser;
-    });
-  }
-  if (action.type === "logoutUser") {
-    return produce(state, (draft) => {
-      draft.isAuthenticatedUser = !draft.isAuthenticatedUser;
-    });
-  }
-  return state;
-}
+const store = createStore(reducer, reduxDevtools);
 
-export const store = createStore(reducer, initialState);
+export default store;

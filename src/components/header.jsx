@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 function Header() {
   //const isAuthenticatedUser = useSelector(selectIsAuthenticatedUser);
-  const isAuthenticatedUser = useSelector((state) => state.isAuthenticatedUser);
+  const isAuthenticatedUser = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
@@ -33,7 +33,7 @@ function Header() {
               className="main-nav-item"
               onClick={(event) => {
                 event.preventDefault();
-                dispatch({ type: "loginUser" });
+                dispatch({ type: "logoutUser" });
               }}
             >
               <i className="fa fa-sign-out"></i>
