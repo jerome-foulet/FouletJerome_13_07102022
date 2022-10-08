@@ -2,16 +2,18 @@ import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { useSelector, useStore } from "react-redux";
 import { selectIsAuthenticatedUser } from "../utils/selectors";
-import { fetchOrUpdateUser } from "../features/user";
+import { fetchUser } from "../features/user";
 
 function Profile() {
+  const isAuthenticatedUser = useSelector(selectIsAuthenticatedUser);
+
   const store = useStore();
   useEffect(() => {
     document.title = "Argent Bank - Profile Page";
-    fetchOrUpdateUser(store);
-  }, [store]);
-
-  const isAuthenticatedUser = useSelector(selectIsAuthenticatedUser);
+    if (isAuthenticatedUser) {
+      fetchUser(store);
+    }
+  }, [isAuthenticatedUser, store]);
 
   if (isAuthenticatedUser === false) {
     return <Navigate replace to="/login" />;

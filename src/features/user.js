@@ -14,7 +14,7 @@ export const userResolved = createAction("user/resolved");
 //const userRejected = (error) => ({ type: REJECTED, payload: error });
 export const userRejected = createAction("user/rejected");
 
-export async function fetchOrUpdateUser(store) {
+export async function fetchUser(store) {
   const status = selectUser(store.getState()).status;
   if (status === "pending" || status === "updating") {
     return;
@@ -31,7 +31,7 @@ export async function fetchOrUpdateUser(store) {
       },
     };
     const response = await fetch(
-      "http://localhost:3001/api/v1/user/profile",
+      process.env.REACT_APP_BACKEND_URL + "/api/v1/user/profile",
       requestOptions
     );
     const data = await response.json();

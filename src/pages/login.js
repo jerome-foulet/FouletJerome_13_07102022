@@ -1,14 +1,15 @@
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useStore } from "react-redux";
 import { selectIsAuthenticatedUser } from "../utils/selectors";
 import { useNavigate } from "react-router-dom";
+import { postLogin } from "../features/auth";
 
 function Login() {
   useEffect(() => {
     document.title = "Argent Bank - Login Page";
   }, []);
 
-  const dispatch = useDispatch();
+  const store = useStore();
 
   const navigate = useNavigate();
   const isAuthenticatedUser = useSelector(selectIsAuthenticatedUser);
@@ -19,31 +20,43 @@ function Login() {
     }
   }, [isAuthenticatedUser, navigate]);
 
+  const handleLogin = (event) => {
+    event.preventDefault();
+    postLogin(store, {
+      userEmail: event.target.userEmail.value,
+      userPassword: event.target.userPassword.value,
+    });
+  };
+
   return (
     <main className="main bg-dark">
       <section className="sign-in-content">
         <i className="fa fa-user-circle sign-in-icon"></i>
         <h1>Sign In</h1>
-        <form>
+        <form onSubmit={handleLogin}>
           <div className="input-wrapper">
-            <label htmlFor="username">Username</label>
-            <input type="text" id="username" />
+            <label htmlFor="userEmail">Email</label>
+            <input
+              name="userEmail"
+              type="text"
+              id="userEmail"
+              defaultValue="tony@stark.com"
+            />
           </div>
           <div className="input-wrapper">
             <label htmlFor="password">Password</label>
-            <input type="password" id="password" />
+            <input
+              name="userPassword"
+              type="password"
+              id="password"
+              defaultValue="password123"
+            />
           </div>
           <div className="input-remember">
-            <input type="checkbox" id="remember-me" />
+            <input name="remember-me" type="checkbox" id="remember-me" />
             <label htmlFor="remember-me">Remember me</label>
           </div>
-          <button
-            className="sign-in-button"
-            onClick={(event) => {
-              event.preventDefault();
-              dispatch({ type: "loginUser" });
-            }}
-          >
+          <button className="sign-in-button" type="submit">
             Sign In
           </button>
         </form>
