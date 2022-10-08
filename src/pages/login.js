@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-//import { selectIsAuthenticatedUser } from "../utils/selectors";
+import { selectIsAuthenticatedUser } from "../utils/selectors";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -11,8 +11,7 @@ function Login() {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
-  //const isAuthenticatedUser = useSelector(selectIsAuthenticatedUser);
-  const isAuthenticatedUser = useSelector((state) => state.auth);
+  const isAuthenticatedUser = useSelector(selectIsAuthenticatedUser);
 
   useEffect(() => {
     if (isAuthenticatedUser) {
