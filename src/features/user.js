@@ -21,7 +21,19 @@ export async function fetchOrUpdateUser(store) {
   }
   store.dispatch(userFetching());
   try {
-    const response = await fetch("http://localhost:3001/api/v1/user/profile");
+    const token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNDA0MThhOTQ1ODEyMDY0ODNmODY4OSIsImlhdCI6MTY2NTE1ODYyNiwiZXhwIjoxNjY1MjQ1MDI2fQ.2oud2Ni5-EMcv2v_WVTN_aTk_dWhB2higLfQ8kPgx_g";
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    };
+    const response = await fetch(
+      "http://localhost:3001/api/v1/user/profile",
+      requestOptions
+    );
     const data = await response.json();
     store.dispatch(userResolved(data));
   } catch (error) {
