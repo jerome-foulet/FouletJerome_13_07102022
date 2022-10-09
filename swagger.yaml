@@ -1,0 +1,168 @@
+openapi: 3.0.3
+info:
+  title: Argent Bank API transactions documentation
+  description: |-
+    Contains all available API endpoints for transactions
+  termsOfService: http://swagger.io/terms/
+  version: "1"
+servers:
+  - url: http://localhost:3001/api/v1
+tags:
+  - name: transactions
+    description: Everything about transactions
+  - name: categories
+    description: Everything about categories
+paths:
+  /transactions:
+    get:
+      tags:
+        - transactions
+      summary: Find all transactions
+      description: Find all transactions, parameters can help to get value within specific date range
+      operationId: findTransactions
+      parameters:
+        - name: fromDate
+          in: query
+          description: Transaction from specific date
+          required: false
+          schema:
+            type: string
+        - name: toDate
+          in: query
+          description: Transaction to specific date
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Transaction"
+        "400":
+          description: Invalid fields
+        "500":
+          description: Internal Server Error
+  /transactions/{transactionId}:
+    get:
+      tags:
+        - transactions
+      summary: Get transaction by transactionId
+      description: Get a detailled transaction from a specfic transactionId
+      operationId: findTransactionById
+      parameters:
+        - in: path
+          name: transactionId
+          required: true
+          schema:
+            type: string
+          description: The transaction ID
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Transaction"
+        "400":
+          description: Invalid fields
+        "500":
+          description: Internal Server Error
+    put:
+      tags:
+        - transactions
+      summary: Update a transaction by Id
+      description: Update a transaction by Id
+      operationId: updateTransaction
+      parameters:
+        - in: path
+          name: transactionId
+          required: true
+          schema:
+            type: string
+          description: The transaction ID
+      requestBody:
+        description: Update an existent pet in the store
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Transaction"
+        required: true
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Transaction"
+        "400":
+          description: Invalid fields
+        "500":
+          description: Internal Server Error
+  /categories:
+    get:
+      tags:
+        - categories
+      summary: Find all categories
+      description: Find all categories
+      operationId: findCategories
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Category"
+        "400":
+          description: Invalid fields
+        "500":
+          description: Internal Server Error
+
+components:
+  schemas:
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "6340418a94581206483f8689"
+        description:
+          type: string
+          example: "Golden Sun Bakery"
+        amount:
+          type: number
+          example: 5,0
+        balance:
+          type: number
+          example: 2082,79
+        type:
+          type: string
+          example: "Electronic"
+        category:
+          $ref: "#/components/schemas/Category"
+        note:
+          type: string
+          example: "Note"
+    Category:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "6340418a94581206483f8680"
+        description:
+          type: string
+          example: "Food"
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - BearerAuth: []
