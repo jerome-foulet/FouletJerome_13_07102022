@@ -24,10 +24,8 @@ export async function postLogin(store, credentials) {
       process.env.REACT_APP_BACKEND_URL + "/api/v1/user/login",
       requestOptions
     );
-    //console.log(response);
     const data = await response.json();
-    //console.log(data);
-    if (data.status === 400) return;
+    if (data.status !== 200) return;
     store.dispatch(authLogin(data.body.token));
   } catch (error) {}
 }
@@ -39,8 +37,8 @@ export function logout(store) {
 export default createReducer(initialState, (builder) =>
   builder
     .addCase(authLogin, (draft, action) => {
-      draft.status = !draft.status;
       draft.token = action.payload;
+      draft.status = !draft.status;
       return;
     })
     .addCase(authLogout, (draft, action) => {

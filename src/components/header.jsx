@@ -3,12 +3,16 @@ import argentBankLogo from "../assets/img/argentBankLogo.png";
 import { NavLink } from "react-router-dom";
 import { useSelector, useStore } from "react-redux";
 
-import { selectIsAuthenticatedUser } from "../utils/selectors";
+import {
+  selectIsAuthenticatedUser,
+  selectUserFirstName,
+} from "../utils/selectors";
 
 import { logout } from "../features/auth";
 
 function Header() {
   const isAuthenticatedUser = useSelector(selectIsAuthenticatedUser);
+  const userFirstName = useSelector(selectUserFirstName);
 
   const store = useStore();
 
@@ -27,7 +31,7 @@ function Header() {
           <div>
             <NavLink to="/profile" className="main-nav-item">
               <i className="fa fa-user-circle"></i>
-              Tony
+              {userFirstName}
             </NavLink>
             <NavLink
               to="/"

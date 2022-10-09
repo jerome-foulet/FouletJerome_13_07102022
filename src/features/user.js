@@ -1,5 +1,6 @@
 import { selectUser } from "../utils/selectors";
 import { createAction, createReducer } from "@reduxjs/toolkit";
+import { authLogout } from "../features/auth";
 
 const initialState = {
   status: "void",
@@ -7,22 +8,19 @@ const initialState = {
   error: null,
 };
 
-//const userFetching = () => ({ type: FETCHING });
 export const userFetching = createAction("user/fetching");
-//const userResolved = (data) => ({ type: RESOLVED, payload: data });
 export const userResolved = createAction("user/resolved");
-//const userRejected = (error) => ({ type: REJECTED, payload: error });
 export const userRejected = createAction("user/rejected");
 
-export async function fetchUser(store) {
+export const userUpdate = createAction("user/update");
+
+export async function fetchUser(store, token) {
   const status = selectUser(store.getState()).status;
   if (status === "pending" || status === "updating") {
     return;
   }
   store.dispatch(userFetching());
   try {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNDA0MThhOTQ1ODEyMDY0ODNmODY4OSIsImlhdCI6MTY2NTE1ODYyNiwiZXhwIjoxNjY1MjQ1MDI2fQ.2oud2Ni5-EMcv2v_WVTN_aTk_dWhB2higLfQ8kPgx_g";
     const requestOptions = {
       method: "POST",
       headers: {
@@ -38,6 +36,32 @@ export async function fetchUser(store) {
     store.dispatch(userResolved(data));
   } catch (error) {
     store.dispatch(userRejected(error.toString()));
+  }
+}
+
+export async function updateUser(store, token, payload) {
+  try {
+    const requestOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify({
+        firstName: payload.firstName,
+        lastName: payload.lastName,
+      }),
+    };
+    const response = await fetch(
+      process.env.REACT_APP_BACKEND_URL + "/api/v1/user/profile",
+      requestOptions
+    );
+    const data = await response.json();
+    if (data.status !== 200) return;
+    fetchUser(store, token);
+    store.dispatch(userUpdate());
+  } catch (error) {
+    console.log(error);
   }
 }
 
@@ -74,4 +98,10 @@ export default createReducer(initialState, (builder) =>
       }
       return;
     })
+    .addCase(authLogout, (draft, action) => {
+      draft.error = initialState.error;
+      draft.data = initialState.data;
+      draft.status = initialState.status;
+    })
+    .addCase(userUpdate, (draft, action) => {})
 );

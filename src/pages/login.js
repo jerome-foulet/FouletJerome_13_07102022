@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSelector, useStore } from "react-redux";
-import { selectIsAuthenticatedUser } from "../utils/selectors";
+import { selectIsAuthenticatedUser, selectAuthToken } from "../utils/selectors";
 import { useNavigate } from "react-router-dom";
 import { postLogin } from "../features/auth";
 
@@ -13,12 +13,13 @@ function Login() {
 
   const navigate = useNavigate();
   const isAuthenticatedUser = useSelector(selectIsAuthenticatedUser);
+  const token = useSelector(selectAuthToken);
 
   useEffect(() => {
-    if (isAuthenticatedUser) {
+    if (isAuthenticatedUser && token !== undefined) {
       navigate("/profile");
     }
-  }, [isAuthenticatedUser, navigate]);
+  }, [isAuthenticatedUser, navigate, token]);
 
   const handleLogin = (event) => {
     event.preventDefault();
