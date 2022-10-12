@@ -27,6 +27,7 @@ export async function postLogin(store, credentials) {
     const data = await response.json();
     if (data.status !== 200) return;
     store.dispatch(authLogin(data.body.token));
+    return true;
   } catch (error) {}
 }
 
@@ -38,11 +39,11 @@ export default createReducer(initialState, (builder) =>
   builder
     .addCase(authLogin, (draft, action) => {
       draft.token = action.payload;
-      draft.status = !draft.status;
+      draft.status = true;
       return;
     })
     .addCase(authLogout, (draft, action) => {
-      draft.status = !draft.status;
+      draft.status = false;
       draft.token = "";
       return;
     })

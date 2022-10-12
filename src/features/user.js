@@ -1,4 +1,4 @@
-import { selectUser } from "../utils/selectors";
+import { selectUser, selectAuthToken } from "../utils/selectors";
 import { createAction, createReducer } from "@reduxjs/toolkit";
 import { authLogout } from "../features/auth";
 
@@ -14,8 +14,9 @@ export const userRejected = createAction("user/rejected");
 
 export const userUpdate = createAction("user/update");
 
-export async function fetchUser(store, token) {
+export async function fetchUser(store) {
   const status = selectUser(store.getState()).status;
+  const token = selectAuthToken(store.getState());
   if (status === "pending" || status === "updating") {
     return;
   }
@@ -39,7 +40,8 @@ export async function fetchUser(store, token) {
   }
 }
 
-export async function updateUser(store, token, payload) {
+export async function updateUser(store, payload) {
+  const token = selectAuthToken(store.getState());
   try {
     const requestOptions = {
       method: "PUT",
@@ -58,8 +60,8 @@ export async function updateUser(store, token, payload) {
     );
     const data = await response.json();
     if (data.status !== 200) return;
-    fetchUser(store, token);
     store.dispatch(userUpdate());
+    fetchUser(store, token);
   } catch (error) {
     console.log(error);
   }

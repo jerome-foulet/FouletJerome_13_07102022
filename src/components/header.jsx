@@ -1,6 +1,6 @@
 import argentBankLogo from "../assets/img/argentBankLogo.png";
 
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useStore } from "react-redux";
 
 import {
@@ -15,6 +15,7 @@ function Header() {
   const userFirstName = useSelector(selectUserFirstName);
 
   const store = useStore();
+  const navigate = useNavigate();
 
   return (
     <header className="component header">
@@ -39,6 +40,7 @@ function Header() {
               onClick={(event) => {
                 event.preventDefault();
                 logout(store);
+                navigate("/");
               }}
             >
               <i className="fa fa-sign-out"></i>

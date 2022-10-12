@@ -3,29 +3,26 @@ import { Navigate } from "react-router-dom";
 import { useSelector, useStore } from "react-redux";
 import {
   selectIsAuthenticatedUser,
-  selectAuthToken,
   selectUserFirstName,
   selectUserLastName,
 } from "../utils/selectors";
 import { fetchUser, updateUser } from "../features/user";
 
 function Profile() {
-  const isAuthenticatedUser = useSelector(selectIsAuthenticatedUser);
-  const token = useSelector(selectAuthToken);
+  const store = useStore();
 
+  const isAuthenticatedUser = useSelector(selectIsAuthenticatedUser);
   const userFirstName = useSelector(selectUserFirstName);
   const userLastName = useSelector(selectUserLastName);
-
-  const store = useStore();
 
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     document.title = "Argent Bank - Profile Page";
     if (isAuthenticatedUser) {
-      fetchUser(store, token);
+      fetchUser(store);
     }
-  }, [isAuthenticatedUser, store, token]);
+  }, [isAuthenticatedUser, store]);
 
   if (isAuthenticatedUser === false) {
     return <Navigate replace to="/login" />;
@@ -34,7 +31,7 @@ function Profile() {
   const handleUserUpdate = (event) => {
     event.preventDefault();
 
-    updateUser(store, token, {
+    updateUser(store, {
       firstName: event.target.userFirstName.value,
       lastName: event.target.userLastName.value,
     });
