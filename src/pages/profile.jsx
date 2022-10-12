@@ -46,31 +46,35 @@ function Profile() {
           Welcome back
           <br />
           {isEditing ? (
-            <form onSubmit={handleUserUpdate}>
-              <input
-                name="userFirstName"
-                type="text"
-                id="userFirstName"
-                defaultValue={userFirstName}
-              />
-              <input
-                name="userLastName"
-                type="text"
-                id="userLastName"
-                defaultValue={userLastName}
-              />
-              <br />
-              <button className="sign-in-button" type="submit">
-                Save
-              </button>
-              <button
-                className="sign-in-button"
-                onClick={() => {
-                  setIsEditing(false);
-                }}
-              >
-                Cancel
-              </button>
+            <form className="editUser" onSubmit={handleUserUpdate}>
+              <div>
+                <input
+                  name="userFirstName"
+                  type="text"
+                  id="userFirstName"
+                  defaultValue={userFirstName}
+                />
+                <button className="sign-in-button" type="submit">
+                  Save
+                </button>
+              </div>
+              <div>
+                <input
+                  name="userLastName"
+                  type="text"
+                  id="userLastName"
+                  defaultValue={userLastName}
+                />
+                <button
+                  className="sign-in-button"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    setIsEditing(false);
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
             </form>
           ) : (
             <div>
@@ -78,14 +82,16 @@ function Profile() {
             </div>
           )}
         </h1>
-        <button
-          className="edit-button"
-          onClick={() => {
-            setIsEditing(true);
-          }}
-        >
-          Edit Name
-        </button>
+        {!isEditing && (
+          <button
+            className="edit-button"
+            onClick={() => {
+              setIsEditing(true);
+            }}
+          >
+            Edit Name
+          </button>
+        )}
       </div>
       <h2 className="sr-only">Accounts</h2>
       <section className="account">
